@@ -23,4 +23,4 @@ jobs:
           java-version: '17'
 
       - name: Build and test
-        run: ./gradlew build
+        run: gradle build
