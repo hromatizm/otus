@@ -1,8 +1,5 @@
 package org.example.solve
 
-import org.example.equalsTo
-import org.example.greaterThan
-import org.example.lessThan
 import kotlin.math.sqrt
 
 class Solver : ISolver {

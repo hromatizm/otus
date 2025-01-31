@@ -2,7 +2,7 @@ package solver
 
 import org.assertj.core.api.Assertions.assertThat
 import org.assertj.core.api.Assertions.catchThrowable
-import org.example.equalsTo
+import org.example.solve.equalsTo
 import org.example.solve.Solver
 import org.junit.jupiter.api.TestInstance
 import org.junit.jupiter.params.ParameterizedTest
