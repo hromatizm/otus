@@ -1,4 +1,8 @@
-package org.example.move
+package motion.move
+
+import motion.IUniversalObject
+import motion.Point
+import motion.Vector
 
 class MovableAdapter(
     val obj: IUniversalObject,

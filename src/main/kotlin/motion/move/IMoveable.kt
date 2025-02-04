@@ -1,4 +1,7 @@
-package org.example.move
+package motion.move
+
+import motion.Point
+import motion.Vector
 
 interface IMoveable {
 

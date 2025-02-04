@@ -1,4 +1,4 @@
-package org.example.move
+package motion
 
 class Vector(
     internal val abs: Int,

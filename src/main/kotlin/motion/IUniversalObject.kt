@@ -1,4 +1,4 @@
-package org.example.move
+package motion
 
 interface IUniversalObject {
 
