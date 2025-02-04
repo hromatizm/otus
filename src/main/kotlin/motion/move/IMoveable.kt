@@ -5,8 +5,6 @@ import motion.Vector
 
 interface IMoveable {
 
-
-
     fun getVelocity(): Vector
 
     fun getLocation(): Point
