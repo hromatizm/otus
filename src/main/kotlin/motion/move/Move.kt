@@ -6,9 +6,9 @@ import kotlin.math.cos
 import kotlin.math.roundToInt
 import kotlin.math.sin
 
-class Move() : IMove {
+class Move(private val obj: IMoveable) : IMove {
 
-    override fun execute(obj: IMoveable) {
+    override fun execute() {
         val newLocation: Point = changeLocation(
             location = obj.getLocation(),
             vector = obj.getVelocity()

@@ -36,10 +36,10 @@ class RotationTest {
         val rotatingObjMock = mockk<IRotatable>(relaxed = true).also {
             every { it.getAngle() } returns angleMock
         }
-        val testingRotation = Rotation()
+        val testingRotation = Rotation(rotatingObjMock, delta)
 
         // Act
-        testingRotation.execute(rotatingObjMock, delta)
+        testingRotation.execute()
 
         // Assert
         verify { rotatingObjMock.getAngle() }
@@ -60,11 +60,11 @@ class RotationTest {
             every { it.getAngle() } throws RuntimeException("Unable to get angle")
         }
         val degreesDelta = 20.0
-        val testingRotation = Rotation()
+        val testingRotation = Rotation(rotatingObjMock, degreesDelta)
 
         // Act
         val exception = catchThrowable {
-            testingRotation.execute(rotatingObjMock, degreesDelta)
+            testingRotation.execute()
         }
 
         // Assert
@@ -80,11 +80,11 @@ class RotationTest {
             every { it.setAngle(any()) } throws RuntimeException("Unable to set angle")
         }
         val degreesDelta = 20.0
-        val testingRotation = Rotation()
+        val testingRotation = Rotation(rotatingObjMock, degreesDelta)
 
         // Act
         val exception = catchThrowable {
-            testingRotation.execute(rotatingObjMock, degreesDelta)
+            testingRotation.execute()
         }
 
         // Assert

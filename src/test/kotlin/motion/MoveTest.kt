@@ -32,10 +32,10 @@ class MoveTest {
             every { it.getVelocity() } returns velocityMock
             every { it.getLocation() } returns initialLocationMock
         }
-        val testingMove = Move()
+        val testingMove = Move(movingObjMock)
 
         // Act
-        testingMove.execute(movingObjMock)
+        testingMove.execute()
 
         // Assert
         verify { movingObjMock.getVelocity() }
@@ -56,11 +56,11 @@ class MoveTest {
         val movingObjMock = mockk<IMoveable>(relaxed = true).also {
             every { it.getLocation() } throws RuntimeException("Unable to get location")
         }
-        val testingMove = Move()
+        val testingMove = Move(movingObjMock)
 
         // Act
         val exception = catchThrowable {
-            testingMove.execute(movingObjMock)
+            testingMove.execute()
         }
 
         // Assert
@@ -75,11 +75,11 @@ class MoveTest {
         val movingObjMock = mockk<IMoveable>(relaxed = true).also {
             every { it.getVelocity() } throws RuntimeException("Unable to get velocity")
         }
-        val testingMove = Move()
+        val testingMove = Move(movingObjMock)
 
         // Act
         val exception = catchThrowable {
-            testingMove.execute(movingObjMock)
+            testingMove.execute()
         }
 
         // Assert
@@ -94,11 +94,11 @@ class MoveTest {
         val movingObjMock = mockk<IMoveable>(relaxed = true).also {
             every { it.setLocation(any()) } throws RuntimeException("Unable to set location")
         }
-        val testingMove = Move()
+        val testingMove = Move(movingObjMock)
 
         // Act
         val exception = catchThrowable {
-            testingMove.execute(movingObjMock)
+            testingMove.execute()
         }
 
         // Assert

@@ -4,9 +4,12 @@ import motion.Angle
 import motion.rotate.IRotatable
 import motion.rotate.IRotation
 
-class Rotation() : IRotation {
+class Rotation(
+    private val obj: IRotatable,
+    private val degreesDelta: Double,
+) : IRotation {
 
-    override fun execute(obj: IRotatable, degreesDelta: Double) {
+    override fun execute() {
         val newDegrees = obj.getAngle().getDegrees() + degreesDelta
         val newAngle = Angle(newDegrees)
         obj.setAngle(newAngle)
