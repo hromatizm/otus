@@ -1,8 +1,12 @@
 plugins {
     id 'org.jetbrains.kotlin.jvm' version '2.1.0'
+    id 'application'
 }
 
-group = 'org.example'
+application {
+    mainClass = 'MainKt'
+}
+
 version = '1.0-SNAPSHOT'
 
 repositories {
@@ -10,6 +14,7 @@ repositories {
 }
 
 dependencies {
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.0")
     testImplementation("org.jetbrains.kotlin:kotlin-test")
     testImplementation("org.assertj:assertj-core:3.27.3")
     testImplementation("io.mockk:mockk:1.13.16")
