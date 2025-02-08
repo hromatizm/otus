@@ -1,7 +1,7 @@
 package exception.command
 
 class RetryOnceCommand(
-    private val command: ICommand,
+    val command: ICommand,
 ) : IRetryCommand {
 
     override fun execute() {

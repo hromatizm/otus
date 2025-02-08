@@ -13,5 +13,4 @@ class RetryTwiceExceptionHandler(
         val retryCmd = RetryTwiceCommand(command = source)
         commandFlow.addCommand(command = retryCmd)
     }
-
 }

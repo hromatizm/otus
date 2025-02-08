@@ -1,15 +1,16 @@
 package exception.command
 
-import org.slf4j.LoggerFactory
-
+import java.util.logging.Logger
 
 class LogExceptionCommand(
-    private val exc: Exception
+   val exc: Exception,
 ) : ICommand {
 
-    private val logger = LoggerFactory.getLogger(this::class.java)
+    companion object {
+        val logger: Logger = Logger.getLogger(LogExceptionCommand::class.java.name)
+    }
 
     override fun execute() {
-        logger.error("Exception happened.", exc)
+        logger.info("Exception happened: $exc")
     }
 }
