@@ -11,7 +11,7 @@ import java.util.logging.Logger
 
 import kotlin.test.Test
 
-@TestInstance(TestInstance.Lifecycle.PER_CLASS)
+@TestInstance(TestInstance.Lifecycle.PER_METHOD)
 class LogExceptionCommandTest {
 
     @Test
