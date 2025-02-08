@@ -1,27 +1,30 @@
-package command
+package exception.command
 
+import exception.handler.BaseExceptionHandler
 import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.channels.consumeEach
 import kotlinx.coroutines.channels.onFailure
-import org.example.command.ICommandFlow
 
-class CommandFlow() : ICommandFlow {
+class CommandFlow( ) : ICommandFlow {
 
-    private val scope: CoroutineScope = CoroutineScope(Dispatchers.Default)
+    lateinit var exceptionHandler: BaseExceptionHandler
     private val commandChannel = Channel<ICommand>(Channel.BUFFERED)
-    private lateinit var flowJob: Job
 
-    override fun startFlow() {
-        flowJob = scope.launch {
+    private val flowJob: Job by lazy {
+        CoroutineScope(Dispatchers.Default).launch {
             commandChannel.consumeEach { command ->
                 try {
                     command.execute()
-                } catch (e: Exception) {
-                    println(e.message)
+                } catch (exc: Exception) {
+                    exceptionHandler.handle(source = command, exc = exc)
                 }
             }
         }
+    }
+
+    override fun startFlow() {
+        flowJob.start()
     }
 
     override fun addCommand(command: ICommand) {

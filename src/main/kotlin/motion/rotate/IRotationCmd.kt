@@ -1,5 +1,5 @@
 package motion.rotate
 
-import command.ICommand
+import exception.command.ICommand
 
 interface IRotationCmd : ICommand

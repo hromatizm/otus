@@ -1,5 +1,5 @@
 package motion.move
 
-import command.ICommand
+import exception.command.ICommand
 
 interface IMoveCmd : ICommand

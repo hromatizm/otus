@@ -1,6 +1,4 @@
-package org.example.command
-
-import command.ICommand
+package exception.command
 
 interface ICommandFlow {
 
