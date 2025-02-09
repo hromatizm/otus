@@ -1,14 +1,12 @@
 package exception.log
 
+
 import exception.command.LogExceptionCommand
+import exception.logger.Logger
 import io.mockk.confirmVerified
-import io.mockk.every
 import io.mockk.mockk
-import io.mockk.mockkStatic
 import io.mockk.verify
 import org.junit.jupiter.api.TestInstance
-import java.util.logging.Logger
-
 import kotlin.test.Test
 
 @TestInstance(TestInstance.Lifecycle.PER_METHOD)
@@ -19,15 +17,13 @@ class LogExceptionCommandTest {
         // Arrange
         val exceptionMock = mockk<Exception>()
         val loggerMock = mockk<Logger>(relaxed = true)
-        mockkStatic(Logger::class)
-        every { Logger.getLogger(any()) } returns loggerMock
-        val testingCmd = LogExceptionCommand(exceptionMock)
+        val testingCmd = LogExceptionCommand(exceptionMock, loggerMock)
 
         // Act
         testingCmd.execute()
 
         // Assert
-        verify { loggerMock.info("Exception happened: $exceptionMock") }
+        verify { loggerMock.log("Exception happened:", exceptionMock) }
         confirmVerified(loggerMock)
     }
 }

@@ -9,13 +9,16 @@ import exception.handler.DefaultExceptionHandler
 import exception.handler.IExceptionHandler
 import exception.handler.RetryOnceExceptionHandler
 import exeption.handler.RetryTwiceExceptionHandler
-import io.mockk.*
+import io.mockk.confirmVerified
+import io.mockk.every
+import io.mockk.mockk
+import io.mockk.verify
 import motion.move.Move
 import org.junit.jupiter.api.TestInstance
 import java.sql.SQLException
 import kotlin.test.Test
 
-@TestInstance(TestInstance.Lifecycle.PER_CLASS)
+@TestInstance(TestInstance.Lifecycle.PER_METHOD)
 class BaseExceptionHandlerTest {
 
     @Test

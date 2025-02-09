@@ -1,16 +1,14 @@
 package exception.command
 
-import java.util.logging.Logger
+import exception.logger.ILogger
+import exception.logger.Logger
 
 class LogExceptionCommand(
-   val exc: Exception,
+    val exc: Exception,
+    val logger: ILogger = Logger()
 ) : ICommand {
-
-    companion object {
-        val logger: Logger = Logger.getLogger(LogExceptionCommand::class.java.name)
-    }
-
+    
     override fun execute() {
-        logger.info("Exception happened: $exc")
+        logger.log("Exception happened:", exc)
     }
 }
