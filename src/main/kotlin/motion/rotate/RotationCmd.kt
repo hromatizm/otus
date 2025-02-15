@@ -2,12 +2,12 @@ package org.example.motion.rotate
 
 import motion.Angle
 import motion.rotate.IRotatable
-import motion.rotate.IRotation
+import motion.rotate.IRotationCmd
 
-class Rotation(
+class RotationCmd(
     private val obj: IRotatable,
     private val degreesDelta: Double,
-) : IRotation {
+) : IRotationCmd {
 
     override fun execute() {
         val newDegrees = obj.getAngle().getDegrees() + degreesDelta

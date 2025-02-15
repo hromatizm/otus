@@ -1,6 +1,4 @@
 package org.example
 
-class Main {
+fun main() {}
 
-    fun main() {}
-}

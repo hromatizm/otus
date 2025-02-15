@@ -7,7 +7,7 @@ import io.mockk.verify
 import motion.rotate.IRotatable
 import org.assertj.core.api.Assertions.assertThat
 import org.assertj.core.api.Assertions.catchThrowable
-import org.example.motion.rotate.Rotation
+import org.example.motion.rotate.RotationCmd
 import org.junit.jupiter.api.TestInstance
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.CsvSource
@@ -36,7 +36,7 @@ class RotationTest {
         val rotatingObjMock = mockk<IRotatable>(relaxed = true).also {
             every { it.getAngle() } returns angleMock
         }
-        val testingRotation = Rotation(rotatingObjMock, delta)
+        val testingRotation = RotationCmd(rotatingObjMock, delta)
 
         // Act
         testingRotation.execute()
@@ -60,7 +60,7 @@ class RotationTest {
             every { it.getAngle() } throws RuntimeException("Unable to get angle")
         }
         val degreesDelta = 20.0
-        val testingRotation = Rotation(rotatingObjMock, degreesDelta)
+        val testingRotation = RotationCmd(rotatingObjMock, degreesDelta)
 
         // Act
         val exception = catchThrowable {
@@ -80,7 +80,7 @@ class RotationTest {
             every { it.setAngle(any()) } throws RuntimeException("Unable to set angle")
         }
         val degreesDelta = 20.0
-        val testingRotation = Rotation(rotatingObjMock, degreesDelta)
+        val testingRotation = RotationCmd(rotatingObjMock, degreesDelta)
 
         // Act
         val exception = catchThrowable {
