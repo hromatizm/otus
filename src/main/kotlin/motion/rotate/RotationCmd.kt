@@ -5,8 +5,8 @@ import motion.Angle
 import motion.rotate.IRotatable
 
 class RotationCmd(
-    private val obj: IRotatable,
-    private val degreesDelta: Double,
+    val obj: IRotatable,
+    val degreesDelta: Double,
 ) : ICommand {
 
     override fun execute() {

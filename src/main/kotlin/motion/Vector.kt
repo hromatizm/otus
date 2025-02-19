@@ -1,6 +1,6 @@
 package motion
 
-class Vector(
+data class Vector(
     internal val abs: Int,
     var angle: Angle,
 )
