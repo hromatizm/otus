@@ -13,7 +13,7 @@ import io.mockk.confirmVerified
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.verify
-import motion.move.Move
+import motion.move.MoveCmd
 import org.junit.jupiter.api.TestInstance
 import java.sql.SQLException
 import kotlin.test.Test
@@ -26,7 +26,7 @@ class BaseExceptionHandlerTest {
         // Arrange
         val sqlExcMock = mockk<SQLException>()
         val cmdFlowMock = mockk<ICommandFlow>(relaxed = true)
-        val moveCmdMock = mockk<Move>()
+        val moveCmdCmdMock = mockk<MoveCmd>()
         val retryOnceCmdMock = mockk<RetryOnceCommand>()
         val retryOnceExcHandlerMock = mockk<RetryOnceExceptionHandler>()
         val logExcCmdMock = mockk<LogExceptionCommand>(relaxed = true)
@@ -34,16 +34,16 @@ class BaseExceptionHandlerTest {
         val handlersRegistryMock =
             mockk<MutableMap<Class<*>, MutableMap<Class<out Exception>, IExceptionHandler>>>(relaxed = true)
         val testingHandler = BaseExceptionHandler(cmdFlowMock, handlersRegistryMock)
-        every { cmdFlowMock.addCommand(moveCmdMock) } answers {
-            moveCmdMock.execute()
+        every { cmdFlowMock.addCommand(moveCmdCmdMock) } answers {
+            moveCmdCmdMock.execute()
         }
-        every { moveCmdMock.execute() } answers {
-            testingHandler.handle(source = moveCmdMock, exc = sqlExcMock)
+        every { moveCmdCmdMock.execute() } answers {
+            testingHandler.handle(source = moveCmdCmdMock, exc = sqlExcMock)
         }
-        every { handlersRegistryMock[Move::class.java] } returns mutableMapOf(
+        every { handlersRegistryMock[MoveCmd::class.java] } returns mutableMapOf(
             SQLException::class.java to retryOnceExcHandlerMock
         )
-        every { retryOnceExcHandlerMock.handle(moveCmdMock, sqlExcMock) } answers {
+        every { retryOnceExcHandlerMock.handle(moveCmdCmdMock, sqlExcMock) } answers {
             cmdFlowMock.addCommand(retryOnceCmdMock)
         }
         every { cmdFlowMock.addCommand(retryOnceCmdMock) } answers {
@@ -63,10 +63,10 @@ class BaseExceptionHandlerTest {
         }
 
         // Act
-        cmdFlowMock.addCommand(moveCmdMock)
+        cmdFlowMock.addCommand(moveCmdCmdMock)
 
         // Assert
-        verify { retryOnceExcHandlerMock.handle(moveCmdMock, sqlExcMock) }
+        verify { retryOnceExcHandlerMock.handle(moveCmdCmdMock, sqlExcMock) }
         verify { retryOnceCmdMock.execute() }
         verify { logExcHandlerMock.handle(retryOnceCmdMock, sqlExcMock) }
         verify { logExcCmdMock.execute() }
@@ -80,7 +80,7 @@ class BaseExceptionHandlerTest {
         // Arrange
         val sqlExcMock = mockk<SQLException>()
         val cmdFlowMock = mockk<ICommandFlow>(relaxed = true)
-        val moveCmdMock = mockk<Move>()
+        val moveCmdCmdMock = mockk<MoveCmd>()
         val retryOnceCmdMock = mockk<RetryOnceCommand>()
         val retryOnceExcHandlerMock = mockk<RetryOnceExceptionHandler>()
         val retryTwiceCmdMock = mockk<RetryTwiceCommand>()
@@ -90,16 +90,16 @@ class BaseExceptionHandlerTest {
         val handlersRegistryMock =
             mockk<MutableMap<Class<*>, MutableMap<Class<out Exception>, IExceptionHandler>>>(relaxed = true)
         val testingHandler = BaseExceptionHandler(cmdFlowMock, handlersRegistryMock)
-        every { cmdFlowMock.addCommand(moveCmdMock) } answers {
-            moveCmdMock.execute()
+        every { cmdFlowMock.addCommand(moveCmdCmdMock) } answers {
+            moveCmdCmdMock.execute()
         }
-        every { moveCmdMock.execute() } answers {
-            testingHandler.handle(source = moveCmdMock, exc = sqlExcMock)
+        every { moveCmdCmdMock.execute() } answers {
+            testingHandler.handle(source = moveCmdCmdMock, exc = sqlExcMock)
         }
-        every { handlersRegistryMock[Move::class.java] } returns mutableMapOf(
+        every { handlersRegistryMock[MoveCmd::class.java] } returns mutableMapOf(
             SQLException::class.java to retryOnceExcHandlerMock
         )
-        every { retryOnceExcHandlerMock.handle(moveCmdMock, sqlExcMock) } answers {
+        every { retryOnceExcHandlerMock.handle(moveCmdCmdMock, sqlExcMock) } answers {
             cmdFlowMock.addCommand(retryOnceCmdMock)
         }
         every { cmdFlowMock.addCommand(retryOnceCmdMock) } answers {
@@ -131,10 +131,10 @@ class BaseExceptionHandlerTest {
         }
 
         // Act
-        cmdFlowMock.addCommand(moveCmdMock)
+        cmdFlowMock.addCommand(moveCmdCmdMock)
 
         // Assert
-        verify { retryOnceExcHandlerMock.handle(moveCmdMock, sqlExcMock) }
+        verify { retryOnceExcHandlerMock.handle(moveCmdCmdMock, sqlExcMock) }
         verify { retryOnceCmdMock.execute() }
         verify { retryTwiceExcHandlerMock.handle(retryOnceCmdMock, sqlExcMock) }
         verify { retryTwiceCmdMock.execute() }

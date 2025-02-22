@@ -1,13 +1,13 @@
 package org.example.motion.rotate
 
+import exception.command.ICommand
 import motion.Angle
 import motion.rotate.IRotatable
-import motion.rotate.IRotationCmd
 
 class RotationCmd(
-    private val obj: IRotatable,
-    private val degreesDelta: Double,
-) : IRotationCmd {
+    val obj: IRotatable,
+    val degreesDelta: Double,
+) : ICommand {
 
     override fun execute() {
         val newDegrees = obj.getAngle().getDegrees() + degreesDelta

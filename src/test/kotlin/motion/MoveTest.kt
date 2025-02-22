@@ -5,7 +5,7 @@ import io.mockk.every
 import io.mockk.mockk
 import io.mockk.verify
 import motion.move.IMoveable
-import motion.move.Move
+import motion.move.MoveCmd
 import org.assertj.core.api.Assertions.assertThat
 import org.assertj.core.api.Assertions.catchThrowable
 import org.junit.jupiter.api.TestInstance
@@ -32,10 +32,10 @@ class MoveTest {
             every { it.getVelocity() } returns velocityMock
             every { it.getLocation() } returns initialLocationMock
         }
-        val testingMove = Move(movingObjMock)
+        val testingMoveCmd = MoveCmd(movingObjMock)
 
         // Act
-        testingMove.execute()
+        testingMoveCmd.execute()
 
         // Assert
         verify { movingObjMock.getVelocity() }
@@ -56,11 +56,11 @@ class MoveTest {
         val movingObjMock = mockk<IMoveable>(relaxed = true).also {
             every { it.getLocation() } throws RuntimeException("Unable to get location")
         }
-        val testingMove = Move(movingObjMock)
+        val testingMoveCmd = MoveCmd(movingObjMock)
 
         // Act
         val exception = catchThrowable {
-            testingMove.execute()
+            testingMoveCmd.execute()
         }
 
         // Assert
@@ -75,11 +75,11 @@ class MoveTest {
         val movingObjMock = mockk<IMoveable>(relaxed = true).also {
             every { it.getVelocity() } throws RuntimeException("Unable to get velocity")
         }
-        val testingMove = Move(movingObjMock)
+        val testingMoveCmd = MoveCmd(movingObjMock)
 
         // Act
         val exception = catchThrowable {
-            testingMove.execute()
+            testingMoveCmd.execute()
         }
 
         // Assert
@@ -94,11 +94,11 @@ class MoveTest {
         val movingObjMock = mockk<IMoveable>(relaxed = true).also {
             every { it.setLocation(any()) } throws RuntimeException("Unable to set location")
         }
-        val testingMove = Move(movingObjMock)
+        val testingMoveCmd = MoveCmd(movingObjMock)
 
         // Act
         val exception = catchThrowable {
-            testingMove.execute()
+            testingMoveCmd.execute()
         }
 
         // Assert

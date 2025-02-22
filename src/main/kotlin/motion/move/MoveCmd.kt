@@ -1,12 +1,13 @@
 package motion.move
 
+import exception.command.ICommand
 import motion.Point
 import motion.Vector
 import kotlin.math.cos
 import kotlin.math.roundToInt
 import kotlin.math.sin
 
-class Move(private val obj: IMoveable) : IMoveCmd {
+class MoveCmd(private val obj: IMoveable) : ICommand {
 
     override fun execute() {
         val newLocation: Point = changeLocation(
