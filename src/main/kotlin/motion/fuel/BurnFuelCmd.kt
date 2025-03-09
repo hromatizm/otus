@@ -1,6 +1,6 @@
 package org.example.motion.fuel
 
-import exception.command.ICommand
+import command.ICommand
 import org.example.exception.CommandException
 
 class BurnFuelCmd(

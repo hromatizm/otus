@@ -1,6 +1,6 @@
 package ioc
 
-import exception.command.ICommand
+import command.ICommand
 
 class Ioc {
 
@@ -51,6 +51,7 @@ class Ioc {
                     }
                 }
             }
+
         }
 
         fun <T> resolve(dependencyName: String, vararg args: Any): T {

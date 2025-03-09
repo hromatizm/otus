@@ -1,6 +1,6 @@
 package org.example.motion.rotate
 
-import exception.command.ICommand
+import command.ICommand
 import motion.Angle
 import motion.rotate.IRotatable
 

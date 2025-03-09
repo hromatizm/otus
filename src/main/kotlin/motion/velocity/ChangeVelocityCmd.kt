@@ -1,6 +1,6 @@
 package org.example.motion.velocity
 
-import exception.command.ICommand
+import command.ICommand
 import motion.Vector
 
 class ChangeVelocityCmd(

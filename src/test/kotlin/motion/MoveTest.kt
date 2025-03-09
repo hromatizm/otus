@@ -42,7 +42,7 @@ class MoveTest {
         verify { movingObjMock.getLocation() }
         verify {
             movingObjMock.setLocation(
-                newLocation = withArg {
+                newValue = withArg {
                     assertThat(it).isEqualTo(Point(x = 5, y = 8))
                 }
             )

@@ -9,6 +9,6 @@ interface IMoveable {
 
     fun getLocation(): Point
 
-    fun setLocation(newLocation: Point)
+    fun setLocation(newValue: Point)
 
 }
