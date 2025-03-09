@@ -1,4 +1,4 @@
-package org.example.motion.move
+package motion.move
 
 import command.ICommand
 

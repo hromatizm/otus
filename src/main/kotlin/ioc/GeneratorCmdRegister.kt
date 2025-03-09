@@ -1,15 +1,19 @@
-package org.example.generator
+package org.example.ioc
 
 import command.ICommand
 import ioc.Ioc
-import org.example.motion.move.SetLocationCmd
+import org.example.generator.CompileStringToClassCmd
+import org.example.generator.GenerateAdapterCmd
+import org.example.generator.GetAdapterInstanceCmd
+import org.example.generator.InterfaceMethodsToStringCmd
+import org.example.generator.LoadClassFromFileCmd
 
-class CmdRegister {
+class GeneratorCmdRegister {
 
     companion object {
 
         private val commands = listOf(
-            Ioc.resolve<ICommand>(
+            Ioc.Companion.resolve<ICommand>(
                 dependencyName = "Ioc.Register",
                 args = arrayOf("InterfaceMethodsToString", { params: Array<out Any> ->
                     InterfaceMethodsToStringCmd(
@@ -17,7 +21,7 @@ class CmdRegister {
                     )
                 })
             ),
-            Ioc.resolve<ICommand>(
+            Ioc.Companion.resolve<ICommand>(
                 dependencyName = "Ioc.Register",
                 args = arrayOf("CompileStringToClass", { params: Array<out Any> ->
                     CompileStringToClassCmd(
@@ -27,7 +31,7 @@ class CmdRegister {
                     )
                 })
             ),
-            Ioc.resolve<ICommand>(
+            Ioc.Companion.resolve<ICommand>(
                 dependencyName = "Ioc.Register",
                 args = arrayOf("GenerateAdapter", { params: Array<out Any> ->
                     GenerateAdapterCmd(
@@ -35,7 +39,7 @@ class CmdRegister {
                     )
                 })
             ),
-            Ioc.resolve<ICommand>(
+            Ioc.Companion.resolve<ICommand>(
                 dependencyName = "Ioc.Register",
                 args = arrayOf("LoadClassFromFile", { params: Array<out Any> ->
                     LoadClassFromFileCmd(
@@ -44,7 +48,7 @@ class CmdRegister {
                     )
                 })
             ),
-            Ioc.resolve<ICommand>(
+            Ioc.Companion.resolve<ICommand>(
                 dependencyName = "Ioc.Register",
                 args = arrayOf("Adapter", { params: Array<out Any> ->
                     GetAdapterInstanceCmd(
@@ -53,17 +57,7 @@ class CmdRegister {
                     )
                 })
             ),
-            Ioc.resolve<ICommand>(
-                dependencyName = "Ioc.Register",
-                args = arrayOf("motion.move.IMoveable:location.set", { params: Array<out Any> ->
-                    SetLocationCmd(
-                        obj = params[0] as MutableMap<String, Any>,
-                        newValue = params[1]
-                    )
-                })
-            )
         )
-
         fun init() {
             commands.forEach { it.execute() }
         }
