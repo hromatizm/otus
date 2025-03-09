@@ -1,6 +1,6 @@
 package ioc
 
-import org.example.command.ICommand
+import command.ICommand
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.verify
