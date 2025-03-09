@@ -1,4 +1,4 @@
-package uniobj
+package org.example.motion.move
 
 import command.ICommand
 

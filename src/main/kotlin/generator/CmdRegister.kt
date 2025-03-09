@@ -2,7 +2,7 @@ package org.example.generator
 
 import command.ICommand
 import ioc.Ioc
-import uniobj.SetLocationCmd
+import org.example.motion.move.SetLocationCmd
 
 class CmdRegister {
 
