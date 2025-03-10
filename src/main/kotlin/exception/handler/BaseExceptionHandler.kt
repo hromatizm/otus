@@ -1,6 +1,6 @@
 package exception.handler
 
-import exception.command.ICommand
+import command.ICommand
 import exception.command.ICommandFlow
 import exception.registry.IExceptionHandlerRegistry
 

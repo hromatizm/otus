@@ -1,6 +1,9 @@
 package ioc
 
-import exception.command.ICommand
+import command.ICommand
+import org.example.ioc.AdapterCmdRegister
+import org.example.ioc.GeneratorCmdRegister
+import org.example.ioc.MoveCmdRegister
 
 class Ioc {
 
@@ -51,6 +54,9 @@ class Ioc {
                     }
                 }
             }
+            GeneratorCmdRegister.init()
+            AdapterCmdRegister.init()
+            MoveCmdRegister.init()
         }
 
         fun <T> resolve(dependencyName: String, vararg args: Any): T {

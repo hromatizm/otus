@@ -2,6 +2,7 @@ package exception.command
 
 import exception.logger.ILogger
 import exception.logger.Logger
+import command.ICommand
 
 class LogExceptionCommand(
     val exc: Exception,

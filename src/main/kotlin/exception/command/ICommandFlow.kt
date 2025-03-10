@@ -1,5 +1,7 @@
 package exception.command
 
+import command.ICommand
+
 interface ICommandFlow {
 
     fun startFlow()

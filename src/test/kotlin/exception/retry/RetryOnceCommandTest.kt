@@ -1,6 +1,6 @@
 package exception.retry
 
-import exception.command.ICommand
+import command.ICommand
 import exception.command.RetryOnceCommand
 import io.mockk.confirmVerified
 import io.mockk.every
