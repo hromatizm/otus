@@ -32,10 +32,10 @@ class InterfaceMethodsToStringCmd(
         val returnType = method.returnType.name
         return """
         override fun ${method.name}(): $returnType {
-            return ioc.Ioc.resolve<$returnType>(
+            return ioc.Ioc.resolve<command.IValueCommand<$returnType>>(
                 dependencyName = "${clazz.name}:$paramName.get",
                 args = arrayOf(obj),
-            )
+            ).execute()
         }""".trimIndent()
     }
 

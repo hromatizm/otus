@@ -14,10 +14,9 @@ class MoveCmdRegister {
             // IMoveable
             Ioc.Companion.resolve<ICommand>(
                 dependencyName = "Ioc.Register",
-                args = arrayOf("motion.move.IMoveable:location.set", { params: Array<out Any> ->
-                    SetLocationCmd(
+                args = arrayOf("motion.move.IMoveable:velocity.get", { params: Array<out Any> ->
+                    GetVelocityCmd(
                         obj = params[0] as MutableMap<String, Any>,
-                        newValue = params[1]
                     )
                 })
             ),
@@ -31,19 +30,19 @@ class MoveCmdRegister {
             ),
             Ioc.Companion.resolve<ICommand>(
                 dependencyName = "Ioc.Register",
-                args = arrayOf("motion.move.IMoveable:velocity.get", { params: Array<out Any> ->
-                    GetVelocityCmd(
+                args = arrayOf("motion.move.IMoveable:location.set", { params: Array<out Any> ->
+                    SetLocationCmd(
                         obj = params[0] as MutableMap<String, Any>,
+                        newValue = params[1]
                     )
                 })
             ),
             // IExtendedMoveable
             Ioc.Companion.resolve<ICommand>(
                 dependencyName = "Ioc.Register",
-                args = arrayOf("motion.move.IExtendedMoveable:location.set", { params: Array<out Any> ->
-                    SetLocationCmd(
+                args = arrayOf("motion.move.IExtendedMoveable:velocity.get", { params: Array<out Any> ->
+                    GetVelocityCmd(
                         obj = params[0] as MutableMap<String, Any>,
-                        newValue = params[1]
                     )
                 })
             ),
@@ -57,9 +56,10 @@ class MoveCmdRegister {
             ),
             Ioc.Companion.resolve<ICommand>(
                 dependencyName = "Ioc.Register",
-                args = arrayOf("motion.move.IExtendedMoveable:velocity.get", { params: Array<out Any> ->
-                    GetVelocityCmd(
+                args = arrayOf("motion.move.IExtendedMoveable:location.set", { params: Array<out Any> ->
+                    SetLocationCmd(
                         obj = params[0] as MutableMap<String, Any>,
+                        newValue = params[1]
                     )
                 })
             ),
