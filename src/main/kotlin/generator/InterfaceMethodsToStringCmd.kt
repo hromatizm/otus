@@ -10,15 +10,15 @@ class InterfaceMethodsToStringCmd(
     private val methodPrefixes = listOf("get", "set")
 
     override fun execute(): String {
-        return clazz.methods.joinToString("\n\n") { implement(clazz, it) }
+        return clazz.methods.joinToString("\n\n") { implement(it) }
     }
 
-    private fun implement(clazz: Class<*>, method: Method): String {
+    private fun implement(method: Method): String {
         val methodType = getMethodType(method)
         val result = when (methodType) {
-            "get" -> implementGetter(clazz, method)
-            "set" -> implementSetter(clazz, method)
-            else -> implementOther(clazz, method)
+            "get" -> implementGetter(method)
+            "set" -> implementSetter(method)
+            else -> implementCommandMethod(method)
         }
         return result
     }
@@ -27,7 +27,7 @@ class InterfaceMethodsToStringCmd(
         return methodPrefixes.firstOrNull { method.name.startsWith(it) } ?: ""
     }
 
-    private fun implementGetter(clazz: Class<*>, method: Method): String {
+    private fun implementGetter(method: Method): String {
         val paramName = method.name.removePrefix("get").lowercase()
         val returnType = method.returnType.name
         return """
@@ -39,7 +39,7 @@ class InterfaceMethodsToStringCmd(
         }""".trimIndent()
     }
 
-    private fun implementSetter(clazz: Class<*>, method: Method): String {
+    private fun implementSetter(method: Method): String {
         val paramName = method.name.removePrefix("set").lowercase()
         val methodArg = method.parameters.first()
         return """
@@ -51,7 +51,13 @@ class InterfaceMethodsToStringCmd(
         }""".trimIndent()
     }
 
-    private fun implementOther(clazz: Class<*>, method: Method): String {
-        return ""
+    private fun implementCommandMethod(method: Method): String {
+        return """
+        override fun ${method.name}() {
+            return ioc.Ioc.resolve<command.ICommand>(
+                dependencyName = "${clazz.name}:${method.name}",
+                args = arrayOf(obj),
+            ).execute()
+        }""".trimIndent()
     }
 }
