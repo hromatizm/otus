@@ -1,6 +1,6 @@
 package motion.move
 
-import exception.command.ICommand
+import command.ICommand
 import motion.Point
 import motion.Vector
 import kotlin.math.cos

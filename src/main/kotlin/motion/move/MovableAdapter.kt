@@ -16,7 +16,7 @@ class MovableAdapter(
         return obj.getProperty("location") as Point
     }
 
-    override fun setLocation(newLocation: Point) {
-        obj.setProperty("location" to newLocation)
+    override fun setLocation(newValue: Point) {
+        obj.setProperty("location" to newValue)
     }
 }

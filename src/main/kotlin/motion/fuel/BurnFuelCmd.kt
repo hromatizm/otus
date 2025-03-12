@@ -1,7 +1,6 @@
 package org.example.motion.fuel
 
-import exception.command.ICommand
-import org.example.exception.CommandException
+import command.ICommand
 
 class BurnFuelCmd(
     private val obj: IFuelConsumer,

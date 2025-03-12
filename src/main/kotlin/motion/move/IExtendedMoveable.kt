@@ -3,7 +3,7 @@ package motion.move
 import motion.Point
 import motion.Vector
 
-interface IMoveable {
+interface IExtendedMoveable {
 
     fun getVelocity(): Vector
 
@@ -11,4 +11,5 @@ interface IMoveable {
 
     fun setLocation(newValue: Point)
 
+    fun finish()
 }

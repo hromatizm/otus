@@ -1,4 +1,4 @@
-package exception.command
+package command
 
 interface ICommand {
 
