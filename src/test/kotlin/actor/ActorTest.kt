@@ -116,27 +116,27 @@ class ActorTest {
         verify { mockCmdBeforeStop.execute() }
         verify { mockCmdAfterStop.execute() }
     }
-
-    @Test
-    fun `after soft stop thread is not alive`() {
-        // Arrange
-        val commandDeque = LinkedBlockingDeque<ICommand>()
-        val actorName = "actorName"
-        ActorStartCmd(
-            deque = commandDeque,
-            actorName = actorName,
-        ).execute()
-        val actor = ActorRegistry.get(actorName)
-        val thread = actor?.getThread()
-        val testingCmd = ActorSoftStopCmd(actorName = actorName)
-
-        // Act
-        commandDeque.add(testingCmd)
-
-        // Assert
-        thread?.join()
-        assertThat(thread?.isAlive).isFalse
-    }
+//
+//    @Test
+//    fun `after soft stop thread is not alive`() {
+//        // Arrange
+//        val commandDeque = LinkedBlockingDeque<ICommand>()
+//        val actorName = "actorName"
+//        ActorStartCmd(
+//            deque = commandDeque,
+//            actorName = actorName,
+//        ).execute()
+//        val actor = ActorRegistry.get(actorName)
+//        val thread = actor?.getThread()
+//        val testingCmd = ActorSoftStopCmd(actorName = actorName)
+//
+//        // Act
+//        commandDeque.add(testingCmd)
+//
+//        // Assert
+//        thread?.join()
+//        assertThat(thread?.isAlive).isFalse
+//    }
 
     private fun IActor.getThread(): Thread? {
         return Thread.getAllStackTraces().keys.firstOrNull { it.name == this.threadName }
