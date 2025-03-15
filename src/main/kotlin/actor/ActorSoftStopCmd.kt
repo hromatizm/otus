@@ -11,7 +11,7 @@ class ActorSoftStopCmd(
         val actor = ActorRegistry.get(actorName) ?: return
         val previousBehavior = actor.behavior
         actor.behavior = {
-            if (actor.deque.isNotEmpty() ==  true) {
+            if (actor.deque.isNotEmpty()) {
                  previousBehavior.invoke()
             } else {
                 actor.stop()
