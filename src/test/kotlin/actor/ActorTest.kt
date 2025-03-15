@@ -117,6 +117,28 @@ class ActorTest {
         verify { mockCmdAfterStop.execute() }
     }
 
+    @Test
+    fun `after soft stop actor stopped`() {
+        // Arrange
+        val commandDeque = LinkedBlockingDeque<ICommand>()
+        val actorName = "actorName"
+        ActorStartCmd(
+            deque = commandDeque,
+            actorName = actorName,
+        ).execute()
+        val actor = ActorRegistry.get(actorName)
+        val latch = CountDownLatch(1)
+        actor?.actionAfterStop = { latch.countDown() }
+        val testingCmd = ActorSoftStopCmd(actorName = actorName)
+
+        // Act
+        commandDeque.add(testingCmd)
+
+        // Assert
+        latch.await()
+        assertThat(latch.count).isEqualTo(0)
+    }
+
     private fun IActor.getThread(): Thread? {
         return Thread.getAllStackTraces().keys.firstOrNull { it.name == this.threadName }
     }
