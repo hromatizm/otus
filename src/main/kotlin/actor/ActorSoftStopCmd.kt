@@ -8,13 +8,13 @@ class ActorSoftStopCmd(
 ) : ICommand {
 
     override fun execute() {
-        val actor = ActorRegistry.Companion.get(actorName)
-        val previousBehavior = actor?.behavior
-        actor?.behavior = {
-            if (actor!!.deque.isNotEmpty()) {
-                run { previousBehavior }
+        val actor = ActorRegistry.get(actorName) ?: return
+        val previousBehavior = actor.behavior
+        actor.behavior = {
+            if (actor.deque.isNotEmpty() ==  true) {
+                 previousBehavior.invoke()
             } else {
-                actor!!.stop()
+                actor.stop()
             }
         }
     }
