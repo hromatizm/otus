@@ -35,11 +35,6 @@ class Actor(
 
     override fun start() {
         thread.start()
-        deque.offerFirst(object : ICommand {
-            override fun execute() {
-                // Заглушка, чтобы поток сразу увидел active == false и завершился
-            }
-        })
         actionAfterStart.invoke()
     }
 
