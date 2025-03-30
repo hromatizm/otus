@@ -1,4 +1,4 @@
-package org.example.generator
+package generator
 
 import command.IValueCommand
 import java.io.File

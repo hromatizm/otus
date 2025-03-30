@@ -1,4 +1,4 @@
-package org.example.generator
+package generator
 
 import command.ICommand
 import command.IValueCommand

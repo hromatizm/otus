@@ -1,7 +1,7 @@
-package org.example.motion.fuel
+package motion.fuel
 
 import command.ICommand
-import org.example.exception.CommandException
+import exception.CommandException
 
 class CheckFuelCmd(
     private val obj: IFuelConsumer,

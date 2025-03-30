@@ -1,4 +1,4 @@
-package org.example.solve
+package solve
 
 import kotlin.math.abs
 

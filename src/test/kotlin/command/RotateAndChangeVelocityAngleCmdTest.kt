@@ -6,10 +6,10 @@ import io.mockk.verify
 import motion.Angle
 import motion.Vector
 import motion.rotate.IRotatable
-import org.example.motion.macro.MacroCmd
-import org.example.motion.rotate.RotationCmd
-import org.example.motion.velocity.ChangeVelocityAngleCmd
-import org.example.motion.velocity.IObjWithChangeableVelocity
+import motion.macro.MacroCmd
+import motion.rotate.RotationCmd
+import motion.velocity.ChangeVelocityAngleCmd
+import motion.velocity.IObjWithChangeableVelocity
 import kotlin.test.Test
 
 class RotateAndChangeVelocityAngleCmdTest {

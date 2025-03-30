@@ -1,4 +1,4 @@
-package org.example.motion.macro
+package motion.macro
 
 import command.ICommand
 

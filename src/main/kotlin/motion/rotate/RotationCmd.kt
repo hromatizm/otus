@@ -1,4 +1,4 @@
-package org.example.motion.rotate
+package motion.rotate
 
 import command.ICommand
 import motion.Angle

@@ -5,10 +5,10 @@ import io.mockk.mockk
 import io.mockk.verify
 import org.assertj.core.api.Assertions.assertThat
 import org.assertj.core.api.Assertions.catchThrowable
-import org.example.exception.CommandException
-import org.example.motion.fuel.CheckFuelCmd
-import org.example.motion.fuel.IFuelConsumer
-import org.example.motion.fuel.BurnFuelCmd
+import exception.CommandException
+import motion.fuel.CheckFuelCmd
+import motion.fuel.IFuelConsumer
+import motion.fuel.BurnFuelCmd
 import kotlin.test.Test
 
 class BurnFuelCmdTest {

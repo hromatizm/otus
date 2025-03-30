@@ -1,4 +1,4 @@
-package org.example.motion.fuel
+package motion.fuel
 
 interface IFuelConsumer {
 

@@ -1,3 +1,3 @@
-package org.example.exception
+package exception
 
 class CommandException(message: String) : RuntimeException(message)

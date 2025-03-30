@@ -7,10 +7,10 @@ import io.mockk.verifySequence
 import motion.move.MoveCmd
 import org.assertj.core.api.Assertions.assertThat
 import org.assertj.core.api.Assertions.catchThrowable
-import org.example.exception.CommandException
-import org.example.motion.fuel.BurnFuelCmd
-import org.example.motion.fuel.CheckFuelCmd
-import org.example.motion.macro.MacroCmd
+import exception.CommandException
+import motion.fuel.BurnFuelCmd
+import motion.fuel.CheckFuelCmd
+import motion.macro.MacroCmd
 import org.junit.jupiter.api.Test
 
 class MoveByFuelCmdTest {

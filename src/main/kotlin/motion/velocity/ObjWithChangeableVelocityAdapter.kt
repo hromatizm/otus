@@ -1,4 +1,4 @@
-package org.example.motion.velocity
+package motion.velocity
 
 import motion.IUniversalObject
 import motion.Vector

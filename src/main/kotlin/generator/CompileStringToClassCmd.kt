@@ -1,4 +1,4 @@
-package org.example.generator
+package generator
 
 import command.ICommand
 import org.jetbrains.kotlin.cli.common.ExitCode

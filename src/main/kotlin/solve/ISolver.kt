@@ -1,4 +1,4 @@
-package org.example.solve
+package solve
 
 interface ISolver {
 

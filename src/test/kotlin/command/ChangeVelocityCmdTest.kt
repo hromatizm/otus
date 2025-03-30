@@ -6,8 +6,8 @@ import io.mockk.verify
 import motion.Vector
 import org.assertj.core.api.Assertions.assertThat
 import org.assertj.core.api.Assertions.catchThrowable
-import org.example.motion.velocity.ChangeVelocityCmd
-import org.example.motion.velocity.IObjWithChangeableVelocity
+import motion.velocity.ChangeVelocityCmd
+import motion.velocity.IObjWithChangeableVelocity
 import kotlin.test.Test
 
 class ChangeVelocityCmdTest {
