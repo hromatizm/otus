@@ -7,7 +7,7 @@ import io.mockk.verify
 import motion.rotate.IRotatable
 import org.assertj.core.api.Assertions.assertThat
 import org.assertj.core.api.Assertions.catchThrowable
-import org.example.motion.rotate.RotationCmd
+import motion.rotate.RotationCmd
 import org.junit.jupiter.api.TestInstance
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.CsvSource

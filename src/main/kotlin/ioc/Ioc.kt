@@ -1,9 +1,9 @@
 package ioc
 
 import command.ICommand
-import org.example.ioc.AdapterCmdRegister
-import org.example.ioc.GeneratorCmdRegister
-import org.example.ioc.MoveCmdRegister
+import ioc.AdapterCmdRegister
+import ioc.GeneratorCmdRegister
+import ioc.MoveCmdRegister
 
 class Ioc {
 

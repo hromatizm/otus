@@ -4,9 +4,9 @@ import io.mockk.every
 import io.mockk.mockk
 import org.assertj.core.api.Assertions.assertThat
 import org.assertj.core.api.Assertions.catchThrowable
-import org.example.exception.CommandException
-import org.example.motion.fuel.CheckFuelCmd
-import org.example.motion.fuel.IFuelConsumer
+import exception.CommandException
+import motion.fuel.CheckFuelCmd
+import motion.fuel.IFuelConsumer
 import kotlin.test.Test
 
 class CheckFuelCmdTest {

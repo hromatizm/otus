@@ -1,12 +1,12 @@
-package org.example.ioc
+package ioc
 
 import command.ICommand
 import ioc.Ioc
-import org.example.generator.CompileStringToClassCmd
-import org.example.generator.GenerateAdapterCmd
-import org.example.generator.GetAdapterInstanceCmd
-import org.example.generator.InterfaceMethodsToStringCmd
-import org.example.generator.LoadClassFromFileCmd
+import generator.CompileStringToClassCmd
+import generator.GenerateAdapterCmd
+import generator.GetAdapterInstanceCmd
+import generator.InterfaceMethodsToStringCmd
+import generator.LoadClassFromFileCmd
 
 class GeneratorCmdRegister {
 

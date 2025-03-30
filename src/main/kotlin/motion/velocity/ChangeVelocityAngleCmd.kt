@@ -1,4 +1,4 @@
-package org.example.motion.velocity
+package motion.velocity
 
 import command.ICommand
 import motion.Angle

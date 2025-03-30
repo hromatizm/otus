@@ -7,8 +7,8 @@ import motion.Angle
 import motion.Vector
 import org.assertj.core.api.Assertions.assertThat
 import org.assertj.core.api.Assertions.catchThrowable
-import org.example.motion.velocity.ChangeVelocityAngleCmd
-import org.example.motion.velocity.IObjWithChangeableVelocity
+import motion.velocity.ChangeVelocityAngleCmd
+import motion.velocity.IObjWithChangeableVelocity
 import kotlin.test.Test
 
 class ChangeVelocityAngleCmdTest {

@@ -1,4 +1,4 @@
-package org.example.ioc
+package ioc
 
 import command.FinishCmd
 import command.ICommand

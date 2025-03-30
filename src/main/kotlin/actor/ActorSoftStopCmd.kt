@@ -1,4 +1,4 @@
-package org.example.actor
+package actor
 
 import actor.ActorRegistry
 import command.ICommand
