@@ -24,7 +24,17 @@ class GameObjRegistry {
             Ioc.resolve<ICommand>(
                 dependencyName = "Добавить игровой объект",
                 args = arrayOf(
-                    "obj_548",
+                    "obj_1",
+                    mutableMapOf(
+                        "location" to Point(x = 1, y = 1),
+                        "velocity" to Vector(abs = 1, angle = Angle(0.0))
+                    )
+                )
+            ),
+            Ioc.resolve<ICommand>(
+                dependencyName = "Добавить игровой объект",
+                args = arrayOf(
+                    "obj_2",
                     mutableMapOf(
                         "location" to Point(x = 1, y = 1),
                         "velocity" to Vector(abs = 1, angle = Angle(0.0))
