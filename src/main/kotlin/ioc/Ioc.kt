@@ -1,25 +1,20 @@
 package ioc
 
 import command.ICommand
-import ioc.AdapterCmdRegister
-import ioc.GeneratorCmdRegister
-import ioc.MoveCmdRegister
+import org.example.spring.registry.GameObjRegistry
+import spring.registry.DefaultScopeRegistry
+import spring.registry.GameCmdRegistry
 
 class Ioc {
 
     companion object {
 
-        private val scopeMap = mutableMapOf<String, MutableMap<String, (params: Array<out Any>) -> Any>>(
+        val scopeMap = mutableMapOf<String, MutableMap<String, (params: Array<out Any>) -> Any>>(
             "default" to mutableMapOf<String, (params: Array<out Any>) -> Any>()
         )
 
         private var defaultScope = scopeMap["default"]
-        private val threadLocalScope = ThreadLocal<MutableMap<String, (params: Array<out Any>) -> Any>>()
         var currentScope: MutableMap<String, (params: Array<out Any>) -> Any>?
-            get() = threadLocalScope.get()
-            set(value) {
-                threadLocalScope.set(value)
-            }
 
         init {
             currentScope = defaultScope
@@ -57,6 +52,9 @@ class Ioc {
             GeneratorCmdRegister.init()
             AdapterCmdRegister.init()
             MoveCmdRegister.init()
+            DefaultScopeRegistry.init()
+            GameCmdRegistry.init()
+            GameObjRegistry.init()
         }
 
         fun <T> resolve(dependencyName: String, vararg args: Any): T {
