@@ -1,26 +1,25 @@
-package spring.message
+package spring
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import command.IValueCommand
 import ioc.Ioc
 import motion.Vector
-import org.assertj.core.api.Assertions.assertThat
+import org.assertj.core.api.Assertions
 import org.awaitility.Awaitility
-import org.example.spring.registry.GameObjRegistry
-import org.junit.jupiter.api.BeforeEach
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.beans.factory.annotation.Value
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc
 import org.springframework.boot.test.context.SpringBootTest
+import org.springframework.http.HttpHeaders
 import org.springframework.http.MediaType
 import org.springframework.test.annotation.DirtiesContext
+import org.springframework.test.context.ActiveProfiles
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post
-import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers
 import spring.msg.IncomingMessageDto
 import spring.msg.ParamDto
-import spring.registry.DefaultScopeRegistry
-import spring.registry.GameCmdRegistry
 import spring.registry.UniObj
 import java.time.Duration
 import kotlin.test.Test
@@ -28,7 +27,11 @@ import kotlin.test.Test
 @SpringBootTest
 @AutoConfigureMockMvc
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
-class MsgControllerTest {
+@ActiveProfiles("test")
+class MsgControllerTest(
+    @Value("\${jwt.token.valid}")
+    private val validJwtToken: String
+) {
 
     @Autowired
     lateinit var mockMvc: MockMvc
@@ -36,20 +39,13 @@ class MsgControllerTest {
     @Autowired
     lateinit var objectMapper: ObjectMapper
 
-    @BeforeEach
-    fun init() {
-        DefaultScopeRegistry.init()
-        GameCmdRegistry.init()
-        GameObjRegistry.init()
-    }
-
     @Test
     fun `should return 200 OK`() {
         val request = getRotationRequest(objId = "obj_1", degreesDelta = 0.0)
 
         mockMvc
             .perform(request)
-            .andExpect(status().isOk)
+            .andExpect(MockMvcResultMatchers.status().isOk)
     }
 
     @Test
@@ -58,7 +54,7 @@ class MsgControllerTest {
         val objId = "obj_1"
         val request = getRotationRequest(objId = objId, degreesDelta = 45.0)
 
-        val initialObj = Ioc.resolve<IValueCommand<UniObj>>(
+        val initialObj = Ioc.Companion.resolve<IValueCommand<UniObj>>(
             dependencyName = "Игровой объект",
             args = arrayOf(objId)
         ).execute()
@@ -69,15 +65,15 @@ class MsgControllerTest {
         mockMvc.perform(request)
 
         // Assert
-        assertThat(initialAngle.getDegrees()).isEqualTo(0.0) // начальный угол
+        Assertions.assertThat(initialAngle.getDegrees()).isEqualTo(0.0) // начальный угол
         Awaitility.waitAtMost(Duration.ofSeconds(30)).untilAsserted {
-            val finalObj = Ioc.resolve<IValueCommand<UniObj>>(
+            val finalObj = Ioc.Companion.resolve<IValueCommand<UniObj>>(
                 dependencyName = "Игровой объект",
                 args = arrayOf(objId)
             ).execute()
             val finalVelocity = finalObj.getValue("velocity") as Vector
             val finalAngle = finalVelocity.angle
-            assertThat(finalAngle.getDegrees()).isEqualTo(45.0) // итоговый угол
+            Assertions.assertThat(finalAngle.getDegrees()).isEqualTo(45.0) // итоговый угол
         }
     }
 
@@ -86,7 +82,7 @@ class MsgControllerTest {
         // Arrange
         val objId = "obj_2"
         val request = getRotationRequest(objId = objId, degreesDelta = 45.0)
-        val initialObj = Ioc.resolve<IValueCommand<UniObj>>(
+        val initialObj = Ioc.Companion.resolve<IValueCommand<UniObj>>(
             dependencyName = "Игровой объект",
             args = arrayOf(objId)
         ).execute()
@@ -98,15 +94,15 @@ class MsgControllerTest {
         mockMvc.perform(request)
 
         // Assert
-        assertThat(initialAngle.getDegrees()).isEqualTo(0.0) // начальный угол
+        Assertions.assertThat(initialAngle.getDegrees()).isEqualTo(0.0) // начальный угол
         Awaitility.waitAtMost(Duration.ofSeconds(30)).untilAsserted {
-            val finalObj = Ioc.resolve<IValueCommand<UniObj>>(
+            val finalObj = Ioc.Companion.resolve<IValueCommand<UniObj>>(
                 dependencyName = "Игровой объект",
                 args = arrayOf(objId)
             ).execute()
             val finalVelocity = finalObj.getValue("velocity") as Vector
             val finalAngle = finalVelocity.angle
-            assertThat(finalAngle.getDegrees()).isEqualTo(90.0) // итоговый угол
+            Assertions.assertThat(finalAngle.getDegrees()).isEqualTo(90.0) // итоговый угол
         }
     }
 
@@ -120,8 +116,9 @@ class MsgControllerTest {
             )
         )
         val messageJson = objectMapper.writeValueAsString(messageDto)
-        return post("/api/handle-message")
+        return MockMvcRequestBuilders.post("/api/handle-message")
             .contentType(MediaType.APPLICATION_JSON)
+            .header(HttpHeaders.AUTHORIZATION, "Bearer $validJwtToken")
             .content(messageJson)
     }
 }
