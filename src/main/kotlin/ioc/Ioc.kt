@@ -1,15 +1,18 @@
 package ioc
 
 import command.ICommand
-import org.example.spring.registry.GameObjRegistry
+import spring.registry.GameObjRegistry
 import org.springframework.stereotype.Component
 import spring.registry.DefaultScopeRegistry
 import spring.registry.GameCmdRegistry
+import state.StatefulActorRegister
 
 @Component // Чтобы Ioс инициализировался в Spring Boot тестах
 class Ioc {
 
     companion object {
+
+        fun initIoc() {}
 
         val scopeMap = mutableMapOf<String, MutableMap<String, (params: Array<out Any>) -> Any>>(
             "default" to mutableMapOf<String, (params: Array<out Any>) -> Any>()
@@ -57,6 +60,7 @@ class Ioc {
             DefaultScopeRegistry.init()
             GameCmdRegistry.init()
             GameObjRegistry.init()
+            StatefulActorRegister.init()
         }
 
         fun <T> resolve(dependencyName: String, vararg args: Any): T {
