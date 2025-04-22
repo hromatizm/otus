@@ -1,6 +1,7 @@
 package spring.message
 
 import com.fasterxml.jackson.databind.ObjectMapper
+import command.ICommand
 import command.IValueCommand
 import ioc.Ioc
 import motion.Vector
@@ -8,6 +9,7 @@ import org.assertj.core.api.Assertions.assertThat
 import org.awaitility.Awaitility
 import spring.registry.GameObjRegistry
 import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.TestInstance
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc
 import org.springframework.boot.test.context.SpringBootTest
@@ -37,10 +39,11 @@ class MsgControllerTest {
     lateinit var objectMapper: ObjectMapper
 
     @BeforeEach
-    fun init() {
-        DefaultScopeRegistry.init()
-        GameCmdRegistry.init()
-        GameObjRegistry.init()
+    fun setScope() {
+        Ioc.resolve<ICommand>(
+            dependencyName = "Scopes.Current",
+            args = arrayOf("game_1")
+        ).execute()
     }
 
     @Test

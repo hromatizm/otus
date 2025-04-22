@@ -10,6 +10,8 @@ import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.TestInstance
+import org.springframework.boot.test.context.SpringBootTest
+import org.springframework.test.annotation.DirtiesContext
 import state.cmd.MoveToCmd
 import state.cmd.RunCmd
 import state.cmd.StatefulActorHardStopCmd
@@ -17,12 +19,14 @@ import java.util.*
 import java.util.concurrent.CountDownLatch
 import java.util.concurrent.LinkedBlockingDeque
 
-@TestInstance(TestInstance.Lifecycle.PER_METHOD)
 class StatefulActorTest {
 
     @BeforeEach
-    fun initIoc() {
-        Ioc.initIoc()
+    fun setScope() {
+        Ioc.resolve<ICommand>(
+            dependencyName = "Scopes.Current",
+            args = arrayOf("game_1")
+        ).execute()
     }
 
     @Test
