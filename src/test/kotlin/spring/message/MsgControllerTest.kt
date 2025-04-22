@@ -6,7 +6,7 @@ import ioc.Ioc
 import motion.Vector
 import org.assertj.core.api.Assertions.assertThat
 import org.awaitility.Awaitility
-import org.example.spring.registry.GameObjRegistry
+import spring.registry.GameObjRegistry
 import org.junit.jupiter.api.BeforeEach
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc

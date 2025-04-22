@@ -1,12 +1,10 @@
-package org.example.spring.registry
+package spring.registry
 
 import command.ICommand
 import ioc.Ioc
 import motion.Angle
 import motion.Point
 import motion.Vector
-
-typealias UniObj = MutableMap<String, Any>
 
 class GameObjRegistry {
 
