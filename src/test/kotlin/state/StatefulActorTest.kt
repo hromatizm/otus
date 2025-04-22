@@ -9,9 +9,6 @@ import ioc.Ioc
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.TestInstance
-import org.springframework.boot.test.context.SpringBootTest
-import org.springframework.test.annotation.DirtiesContext
 import state.cmd.MoveToCmd
 import state.cmd.RunCmd
 import state.cmd.StatefulActorHardStopCmd

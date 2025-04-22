@@ -7,9 +7,7 @@ import ioc.Ioc
 import motion.Vector
 import org.assertj.core.api.Assertions.assertThat
 import org.awaitility.Awaitility
-import spring.registry.GameObjRegistry
 import org.junit.jupiter.api.BeforeEach
-import org.junit.jupiter.api.TestInstance
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc
 import org.springframework.boot.test.context.SpringBootTest
@@ -21,8 +19,6 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 import spring.msg.IncomingMessageDto
 import spring.msg.ParamDto
-import spring.registry.DefaultScopeRegistry
-import spring.registry.GameCmdRegistry
 import spring.registry.UniObj
 import java.time.Duration
 import kotlin.test.Test
