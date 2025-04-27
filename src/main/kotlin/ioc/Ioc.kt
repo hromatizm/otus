@@ -2,9 +2,11 @@ package ioc
 
 import command.ICommand
 import org.example.spring.registry.GameObjRegistry
+import org.springframework.stereotype.Component
 import spring.registry.DefaultScopeRegistry
 import spring.registry.GameCmdRegistry
 
+@Component // Чтобы Ioс инициализировался в Spring Boot тестах
 class Ioc {
 
     companion object {
