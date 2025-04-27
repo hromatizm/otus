@@ -2,7 +2,6 @@ package collision
 
 import motion.Point
 import spring.ObjId
-import spring.registry.UniObj
 
 class CollisionQuadrants(
     private val battleField: BattleField,
@@ -25,16 +24,27 @@ class CollisionQuadrants(
      */
     private val objsQuadrants = mutableMapOf<ObjId, List<Quadrant>>()
 
+    init {
+        battleField.getObjs().forEach { objId ->
+            putOnField(objId)
+        }
+    }
+
+    /**
+     * Получение копии списка окрестностей для тестов
+     */
+    fun getFieldCopy(): List<List<Quadrant>> {
+        return field.map {
+            it.map { quadrant -> quadrant.copy() }
+        }
+    }
 
     /**
      * Возвращает перечень объектов из окрестностей, в которые попал объект
      */
-    fun getNeighbors(obj: UniObj): Map<Quadrant, Set<ObjId>> {
-        val objId = ObjId(obj["id"] as String)
+    fun setPosition(objId: ObjId) {
         removeFromField(objId)
-        val objQuadrants: List<Quadrant> = putOnField(objId)
-        val neighbors = findNeighbors(objQuadrants = objQuadrants, objId = objId)
-        return neighbors
+        putOnField(objId)
     }
 
     private fun removeFromField(objId: ObjId) {
@@ -45,13 +55,12 @@ class CollisionQuadrants(
         }
     }
 
-    private fun putOnField(objId: ObjId): List<Quadrant> {
+    private fun putOnField(objId: ObjId) {
         val positionHolder = battleField.getPosition(objId)
         val newQuadrants: List<Quadrant> = positionHolder?.let {
             putObjPointsOnField(it)
         }.orEmpty()
         objsQuadrants[objId] = newQuadrants
-        return newQuadrants
     }
 
     private fun putObjPointsOnField(positionHolder: ObjPositionHolder): List<Quadrant> {
@@ -61,7 +70,7 @@ class CollisionQuadrants(
             positionHolder.rightTop,
             positionHolder.rightBottom,
             positionHolder.leftBottom
-        ).map { point -> putObjPointToField(objId, point) }
+        ).map { point -> putObjPointToField(objId, point) }.distinct()
     }
 
     private fun putObjPointToField(objId: ObjId, point: Point): Quadrant {
@@ -73,14 +82,15 @@ class CollisionQuadrants(
     }
 
     /**
-     * Возвращает список объектов для каждой окрестности
+     * Возвращает перечень объектов из окрестностей, в которые попал объект
      */
-    private fun findNeighbors(objQuadrants: List<Quadrant>, objId: ObjId): Map<Quadrant, Set<ObjId>> {
-        val resultMap = objQuadrants.associateWith { quadrant ->
+    fun findNeighbors(objId: ObjId): List<Pair<Quadrant, Set<ObjId>>> {
+        val objQuadrants = objsQuadrants[objId]
+        val result = objQuadrants?.map { quadrant ->
             val neighbors = quadrant.objs
             neighbors.remove(objId) // сам объект не является соседом
-            neighbors
-        }
-        return resultMap
+            quadrant to neighbors
+        }?.filter { it.second.isNotEmpty() }
+        return result.orEmpty()
     }
 }

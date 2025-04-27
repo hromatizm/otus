@@ -6,13 +6,15 @@ import collision.SetCollisionCheckersCmd
 import command.ICommand
 import ioc.Ioc
 import spring.ObjId
+import spring.cmd.GetObjCmd
 import spring.cmd.RegisterObjCmd
-import spring.registry.GameCmdRegistry.Companion.objMap
 import spring.registry.UniObj
 
 class CollisionRegistry {
 
     companion object {
+
+        val objMap = mutableMapOf<ObjId, UniObj>()
 
         private val commands = listOf(
             Ioc.Companion.resolve<ICommand>(
@@ -31,6 +33,16 @@ class CollisionRegistry {
                     )
                 })
             ),
+            Ioc.resolve<ICommand>(
+                dependencyName = "Ioc.Register",
+                args = arrayOf("Игровой объект", { params: Array<out Any> ->
+                    val objId = params[0] as String
+                    GetObjCmd(
+                        objMap = objMap,
+                        objId = ObjId(objId),
+                    )
+                })
+            ),
             Ioc.Companion.resolve<ICommand>(
                 dependencyName = "Ioc.Register",
                 args = arrayOf("Проверка коллизии", { params: Array<out Any> ->
@@ -45,7 +57,7 @@ class CollisionRegistry {
                 args = arrayOf("Установить проверки коллизий", { params: Array<out Any> ->
                     SetCollisionCheckersCmd(
                         collisionQuadrants = params[0] as CollisionQuadrants,
-                        obj = params[1] as UniObj
+                        objId = params[1] as String
                     )
                 })
             ),

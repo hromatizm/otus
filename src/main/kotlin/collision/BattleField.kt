@@ -1,5 +1,7 @@
 package collision
 
+import command.IValueCommand
+import ioc.Ioc
 import motion.Point
 import spring.ObjId
 import spring.registry.UniObj
@@ -17,12 +19,19 @@ class BattleField(
      */
     private val locationMap = mutableMapOf<ObjId, ObjPositionHolder>()
 
+    fun getObjs(): List<ObjId> {
+        return locationMap.keys.toList()
+    }
+
     fun getPosition(objId: ObjId): ObjPositionHolder? {
         return locationMap[objId]
     }
 
-    fun changePosition(obj: UniObj) {
-        val objId = obj["id"] as String
+    fun setPosition(objId: String) {
+        val obj = Ioc.resolve<IValueCommand<UniObj>>(
+            dependencyName = "Игровой объект",
+            args = arrayOf(objId)
+        ).execute()
         val location = obj["location"] as Point     // упрощающее ограничение: точка нахождения объекта - центр объекта
         val size = obj["size"] as Int               // упрощающее ограничение: объекты квадратные с нечетным размером стороны
         val halfSize = size / 2

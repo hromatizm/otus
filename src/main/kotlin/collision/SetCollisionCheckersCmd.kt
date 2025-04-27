@@ -1,6 +1,7 @@
 package collision
 
 import command.ICommand
+import command.IValueCommand
 import ioc.Ioc
 import motion.macro.MacroCmd
 import spring.ObjId
@@ -8,20 +9,25 @@ import spring.registry.UniObj
 
 class SetCollisionCheckersCmd(
     private val collisionQuadrants: CollisionQuadrants,
-    private val obj: UniObj,
+    private val objId: String,
 ) : ICommand {
 
     /**
      * Помещает макро команду проверки колизий в каждую окрестность, где находится объект
      */
     override fun execute() {
-        val neighborQuadrants: Map<Quadrant, Set<ObjId>> = collisionQuadrants.getNeighbors(obj)
-        neighborQuadrants.forEach {
-            val quadrant = it.key
-            val neighbors = it.value
-            val checkCommands = neighbors.map { neighbor ->
+        val obj = Ioc.resolve<IValueCommand<UniObj>>(
+            dependencyName = "Игровой объект",
+            args = arrayOf(objId)
+        ).execute()
+        val neighborQuadrants: List<Pair<Quadrant, Set<ObjId>>> = collisionQuadrants.findNeighbors(ObjId(objId))
+        neighborQuadrants.onEach {
+            val quadrant = it.first
+            val neighborIds = it.second
+            val checkCommands = neighborIds.map { objId ->
                 Ioc.resolve<ICommand>(
-                    dependencyName = "Проверка коллизи", args = arrayOf(obj, neighbor)
+                    dependencyName = "Проверка коллизии",
+                    args = arrayOf(obj, objId.id)
                 )
             }
             val objId = ObjId(obj["id"] as String)

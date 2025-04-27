@@ -9,8 +9,8 @@ import spring.registry.UniObj
  * По ДЗ реализация не требуется.
  */
 class CollisionCheckerCmd(
-    private val obj: UniObj,
-    private val neighborId: String,
+    val obj: UniObj,
+    val neighborId: String,
 ) : ICommand {
 
     override fun execute() {
