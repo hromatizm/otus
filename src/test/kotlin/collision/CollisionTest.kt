@@ -35,7 +35,7 @@ class CollisionTest {
         val quadrantsWithNeighborsCount: Int,
     )
 
-    val objId = "obj_1"
+    val objId = "obj_10"
     val n1 = ObjId("n1")
     val n2 = ObjId("n2")
     val n3 = ObjId("n3")

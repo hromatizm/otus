@@ -14,34 +14,10 @@ class CollisionRegistry {
 
     companion object {
 
-        val objMap = mutableMapOf<ObjId, UniObj>()
-
         private val commands = listOf(
             Ioc.Companion.resolve<ICommand>(
                 dependencyName = "Scopes.Current",
                 args = arrayOf("game_1")
-            ),
-            Ioc.resolve<ICommand>(
-                dependencyName = "Ioc.Register",
-                args = arrayOf("Добавить игровой объект", { params: Array<out Any> ->
-                    val objId = params[0] as String
-                    val obj = params[1] as UniObj
-                    RegisterObjCmd(
-                        objMap = objMap,
-                        objId = ObjId(objId),
-                        obj = obj,
-                    )
-                })
-            ),
-            Ioc.resolve<ICommand>(
-                dependencyName = "Ioc.Register",
-                args = arrayOf("Игровой объект", { params: Array<out Any> ->
-                    val objId = params[0] as String
-                    GetObjCmd(
-                        objMap = objMap,
-                        objId = ObjId(objId),
-                    )
-                })
             ),
             Ioc.Companion.resolve<ICommand>(
                 dependencyName = "Ioc.Register",
