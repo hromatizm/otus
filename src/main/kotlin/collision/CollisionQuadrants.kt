@@ -31,16 +31,7 @@ class CollisionQuadrants(
     }
 
     /**
-     * Получение копии списка окрестностей для тестов
-     */
-    fun getFieldCopy(): List<List<Quadrant>> {
-        return field.map {
-            it.map { quadrant -> quadrant.copy() }
-        }
-    }
-
-    /**
-     * Возвращает перечень объектов из окрестностей, в которые попал объект
+     * Устанавливает новое положение объекта в окрестностях
      */
     fun setPosition(objId: ObjId) {
         removeFromField(objId)
@@ -74,8 +65,8 @@ class CollisionQuadrants(
     }
 
     private fun putObjPointToField(objId: ObjId, point: Point): Quadrant {
-        val col = (point.x + shift) / quadrantSize
-        val row = (point.y + shift) / quadrantSize
+        val col = (point.x - shift) / quadrantSize
+        val row = (point.y - shift) / quadrantSize
         val quadrant = field[col][row]
         quadrant.objs.add(objId)
         return quadrant

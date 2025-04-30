@@ -13,6 +13,7 @@ import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.MethodSource
 import spring.ObjId
 import spring.registry.UniObj
+import kotlin.test.Test
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class CollisionTest {
@@ -50,10 +51,10 @@ class CollisionTest {
             desc = "Объект в 1-й окрестности - нет соседей",
             objInitialLocation = Point(5, 5),
             neighbours = emptyList(),
-            notNeighbours = listOf(
-                n1 to Point(5, 15),
-                n2 to Point(15, 15),
-                n3 to Point(15, 5)
+            notNeighbours = listOf( // на границе окрестностей
+                n1 to Point(5, 11),
+                n2 to Point(11, 11),
+                n3 to Point(11, 5)
             ),
             quadrantsWithNeighborsCount = 0,
         ),
@@ -61,7 +62,7 @@ class CollisionTest {
             desc = "Объект в 1-й окрестности - 1 сосед",
             objInitialLocation = Point(5, 5),
             neighbours = listOf(
-                n1 to Point(7, 7)
+                n1 to Point(10, 10) // пересекает границу окрестности
             ),
             notNeighbours = listOf(n9 to Point(55, 55)),
             quadrantsWithNeighborsCount = 1,
@@ -233,6 +234,169 @@ class CollisionTest {
         // Assert
         assertThatNeighboursWereDetectedCorrectly(quadrants, scenario)
         assertThatCorrectCommandsWereCreated(quadrants, scenario)
+    }
+
+    fun scenariosForShiftedQuadrants() = listOf(
+        Scenario(
+            desc = "Объект в 1-й окрестности - нет соседей",
+            objInitialLocation = Point(5, 5),
+            neighbours = emptyList(),
+            notNeighbours = listOf( // на границе окрестностей
+                n1 to Point(12, 5), // за границей по X
+                n2 to Point(5, 12), // за границей по Y
+                n3 to Point(12, 12) // за границей по обоим
+            ),
+            quadrantsWithNeighborsCount = 0,
+        ),
+        Scenario(
+            desc = "Объект в 1-й окрестности - 2 соседа",
+            objInitialLocation = Point(5, 5),
+            neighbours = listOf(
+                n1 to Point(11, 2), // пересекает границу по X
+                n2 to Point(2, 11), // пересекает границу по Y
+                n3 to Point(11, 11)  // пересекает границу по обоим
+            ),
+            notNeighbours = listOf(n9 to Point(55, 55)),
+            quadrantsWithNeighborsCount = 1,
+        ),
+    )
+
+    @ParameterizedTest(name = "{index}: {0}")
+    @MethodSource("scenariosForShiftedQuadrants")
+    fun `assert neighbours and commands for shifted quadrants`(scenario: Scenario) {
+        // Arrange
+        val battleField = BattleField(100, 100).apply {
+            addObj(objId = objId, location = scenario.objInitialLocation)           // помещаем на поле объект
+            scenario.neighbours.forEach {
+                addObj(objId = it.first.id, location = it.second)                   // помещаем на поле соседей
+            }
+            scenario.notNeighbours.forEach {
+                addObj(objId = it.first.id, location = it.second)                   // помещаем на поле НЕ соседей
+            }
+        }
+        val quadrants = CollisionQuadrants(battleField = battleField, shift = 1)    // окрестности со СМЕЩЕНИЕМ 1
+        quadrants.setPosition(ObjId(objId))                                         // размещаем объект в окрестности
+        val testingChain = CollisionCheckHandler(collisionQuadrants = quadrants)
+
+        // Act
+        testingChain.handle(objId)
+
+        // Assert
+        assertThatNeighboursWereDetectedCorrectly(quadrants, scenario)
+        assertThatCorrectCommandsWereCreated(quadrants, scenario)
+    }
+
+    @Test
+    fun `chain test`() {
+        val objLocation = Point(5, 5)
+        val neighbour1 = n1 to Point(10, 2)
+        val neighbour2 = n2 to Point(2, 10)
+        val neighbour3 = n3 to Point(11, 2)
+        val neighbour4 = n4 to Point(2, 11)
+        val neighbour5 = n5 to Point(12, 2)
+        val neighbour6 = n6 to Point(2, 12)
+        val neighbour7 = n7 to Point(13, 2)
+        val neighbour8 = n8 to Point(2, 13)
+        val allNeighbours = listOf(
+            neighbour1,
+            neighbour2,
+            neighbour3,
+            neighbour4,
+            neighbour5,
+            neighbour6,
+            neighbour7,
+            neighbour8,
+        )
+        val scenario0 = Scenario(
+            desc = "без смещения - 2 соседа",
+            objInitialLocation = objLocation,
+            neighbours = listOf(
+                neighbour1,
+                neighbour2,
+            ),
+            notNeighbours = listOf(
+                neighbour3,
+                neighbour4,
+                neighbour5,
+                neighbour6,
+                neighbour7,
+                neighbour8,
+            ),
+            quadrantsWithNeighborsCount = 1,
+        )
+        val scenario1 = Scenario(
+            desc = "смещение 1 - 4 соседа",
+            objInitialLocation = objLocation,
+            neighbours = listOf(
+                neighbour1,
+                neighbour2,
+                neighbour3,
+                neighbour4,
+            ),
+            notNeighbours = listOf(
+                neighbour5,
+                neighbour6,
+                neighbour7,
+                neighbour8,
+            ),
+            quadrantsWithNeighborsCount = 1,
+        )
+        val scenario2 = Scenario(
+            desc = "смещение 2 - 6 соседей",
+            objInitialLocation = objLocation,
+            neighbours = listOf(
+                neighbour1,
+                neighbour2,
+                neighbour3,
+                neighbour4,
+                neighbour5,
+                neighbour6,
+            ),
+            notNeighbours = listOf(
+                neighbour7,
+                neighbour8,
+            ),
+            quadrantsWithNeighborsCount = 1,
+        )
+
+        // Arrange
+        val battleField = BattleField(100, 100).apply {
+            addObj(objId = objId, location = objLocation)                           // помещаем на поле объект
+            allNeighbours.forEach {
+                addObj(objId = it.first.id, location = it.second)                   // помещаем на поле потенциальных соседей
+            }
+        }
+        val quadrants0 = CollisionQuadrants(battleField = battleField, shift = 0)    // окрестности без смещения
+        val quadrants1 = CollisionQuadrants(battleField = battleField, shift = 1)    // окрестности со смещением 1
+        val quadrants2 = CollisionQuadrants(battleField = battleField, shift = 2)    // окрестности со смещением 2
+        quadrants0.setPosition(ObjId(objId))
+        quadrants1.setPosition(ObjId(objId))
+        quadrants2.setPosition(ObjId(objId))
+
+        val testingChain =                                                           //  Цепочка проверок
+            CollisionCheckHandler(
+                collisionQuadrants = quadrants0,
+                next = CollisionCheckHandler(
+                    collisionQuadrants = quadrants1,
+                    next = CollisionCheckHandler(
+                        collisionQuadrants = quadrants2,
+                    )
+                )
+            )
+
+        // Act
+        testingChain.handle(objId)
+
+        // Assert
+        // без смещения
+        assertThatNeighboursWereDetectedCorrectly(quadrants0, scenario0)
+        assertThatCorrectCommandsWereCreated(quadrants0, scenario0)
+        // смещение 1
+        assertThatNeighboursWereDetectedCorrectly(quadrants1, scenario1)
+        assertThatCorrectCommandsWereCreated(quadrants1, scenario1)
+        // смещение 2
+        assertThatNeighboursWereDetectedCorrectly(quadrants2, scenario2)
+        assertThatCorrectCommandsWereCreated(quadrants2, scenario2)
     }
 
     private fun assertThatNeighboursWereDetectedCorrectly(
