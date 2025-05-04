@@ -1,4 +1,4 @@
-package interpretator
+package interpreter
 
 import command.ICommand
 import motion.Angle

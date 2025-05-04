@@ -1,10 +1,10 @@
-package interpretator
+package interpreter
 
 import command.ICommand
-import command.IValueCommand
 import ioc.Ioc
 import motion.Angle
 import motion.Vector
+import spring.ObjId
 import spring.registry.UniObj
 import java.util.*
 
@@ -16,10 +16,6 @@ class FireCmd(
 ) : ICommand {
 
     override fun execute() {
-        Ioc.resolve<ICommand>(
-            dependencyName = "Scopes.Current",
-            args = arrayOf(obj["userId"] as String)         // объект 'снаряд' добавляем в скоуп игрока
-        ).execute()
         val armId = UUID.randomUUID().toString()
         val arm = mutableMapOf(
             "objId" to armId,
@@ -30,8 +26,18 @@ class FireCmd(
             "gameLoop" to obj["gameLoop"],
         )
         Ioc.resolve<ICommand>(
-            dependencyName = "Добавить игровой объект",
-            args = arrayOf(armId, arm)
+            dependencyName = "Scopes.Current",
+            args = arrayOf(
+                obj["gameId"] as String,
+            )
+        ).execute()
+        Ioc.resolve<ICommand>(
+            dependencyName = "Новый игровой объект",
+            args = arrayOf(
+                obj["userId"] as String,
+                ObjId(armId),
+                arm
+            )
         ).execute()
         Ioc.resolve<ICommand>(
             dependencyName = "Начать движение",

@@ -1,16 +1,17 @@
-package interpretator
+package interpreter
 
 import command.ICommand
 import command.IValueCommand
 import ioc.Ioc
+import spring.ObjId
 import spring.event.loop.IGameLoop
 import spring.registry.UniObj
 
 class InterpreterCmd(
     val order: UniObj
-) : ICommand {
+) : IValueCommand<ICommand> {
 
-    override fun execute() {
+    override fun execute(): ICommand {
         val gameLoop = getGameLoop()
         // Если объекта нет, то создаем пустую мапу для передачи в команду,
         // чтобы выполнять команды не только для игровых объектов, но и любые другие
@@ -20,6 +21,7 @@ class InterpreterCmd(
         obj.putAll(cmdArgs)
         val actionCmd = getActionCmd(uniObj = obj)
         gameLoop.addEvent(command = actionCmd)
+        return actionCmd
     }
 
     private fun getGameLoop(): IGameLoop {
@@ -32,14 +34,16 @@ class InterpreterCmd(
     }
 
     private fun getGameObj(): UniObj? {
-        switchToScope(order["userId"] as String)    // Игровой объект берем из скоупа игрока
-        return runCatching {
+        val obj = runCatching {
+            val userId = order["userId"] as String
             val objId = order["objId"] as String
-            Ioc.resolve<IValueCommand<UniObj>>(
-                dependencyName = "Игровой объект",
-                args = arrayOf(objId)
+            val obj = Ioc.resolve<IValueCommand<UniObj>>(
+                dependencyName = "Получить игровой объект",
+                args = arrayOf(userId, ObjId(objId))
             ).execute()
+            obj
         }.getOrNull()
+        return obj
     }
 
     private fun getActionCmd(uniObj: UniObj): ICommand {
