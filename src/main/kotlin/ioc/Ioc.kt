@@ -1,6 +1,7 @@
 package ioc
 
 import command.ICommand
+import interpreter.InterpreterRegistry
 import org.example.collision.CollisionRegistry
 import spring.registry.GameObjRegistry
 import org.springframework.stereotype.Component
@@ -63,6 +64,7 @@ class Ioc {
             GameObjRegistry.init()
             StatefulActorRegister.init()
             CollisionRegistry.init()
+            InterpreterRegistry.init()
         }
 
         fun <T> resolve(dependencyName: String, vararg args: Any): T {

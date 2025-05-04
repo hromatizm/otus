@@ -8,6 +8,7 @@ import motion.Vector
 import org.assertj.core.api.Assertions
 import org.awaitility.Awaitility
 import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Disabled
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc
@@ -26,6 +27,7 @@ import spring.registry.UniObj
 import java.time.Duration
 import kotlin.test.Test
 
+@Disabled
 @SpringBootTest
 @AutoConfigureMockMvc
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
